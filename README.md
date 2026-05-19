@@ -34,6 +34,19 @@ if Composer uses its own curl, not PHP's. Let's point Composer directly to our c
 composer config --global cafile "C:\xampp\php\extras\ssl\cacert.pem"
 
 
+there is one more case if while installing composer require laravel cachier then if you get this error=
+ curl error 60 while downloading https://repo.packagist.org/packages.json: SSL certificate problem: unable to get local issuer certificate
+
+ then again run below commands=>
+ docker compose cp "C:\xampp\php\extras\ssl\cacert.pem" server:/usr/local/share/ca-certificates/zscaler.crt
+ docker compose exec server update-ca-certificates
+ docker compose exec server bash -c "composer config --global cafile /etc/ssl/certs/ca-certificates.crt"
+ docker compose exec server bash -c "composer require laravel/cashier"
+
+done 
+for cachier migration run this command with docker=>
+docker compose exec server bash -c "php artisan vendor:publish --tag=cashier-migrations"
+
 install laravel new project in this docker =>
 
 docker compose down
